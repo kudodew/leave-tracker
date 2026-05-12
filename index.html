@@ -1,235 +1,228 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2868
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Leave Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <style>
+    input[type="date"]::-webkit-calendar-picker-indicator { opacity: 0.5; cursor: pointer; }
+    #toast { opacity: 0; transform: translateY(1rem); }
+    #toast:not(.opacity-0) { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50 font-sans antialiased">
+  <header class="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-sm">
+    <div class="max-w-lg mx-auto flex items-center gap-3 px-4 py-3">
+      <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center shrink-0">
+        <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+        </svg>
+      </div>
+      <div class="flex-1 min-w-0">
+        <h1 class="text-base font-semibold text-slate-800 leading-tight">Leave Tracker</h1>
+        <p id="greeting" class="text-xs text-slate-500 truncate">Initialising...</p>
+      </div>
+      <img id="avatar" src="" alt="Avatar" class="hidden w-9 h-9 rounded-full object-cover border-2 border-emerald-200 shrink-0" />
+    </div>
+  </header>
 
-\f0\fs24 \cf0 <!DOCTYPE html>\
-<html lang="en">\
-<head>\
-  <meta charset="UTF-8" />\
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />\
-  <title>Leave Tracker</title>\
-  <script src="https://cdn.tailwindcss.com"></script>\
-  <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>\
-  <style>\
-    input[type="date"]::-webkit-calendar-picker-indicator \{ opacity: 0.5; cursor: pointer; \}\
-    #toast \{ opacity: 0; transform: translateY(1rem); \}\
-    #toast:not(.opacity-0) \{ opacity: 1; transform: translateY(0); \}\
-  </style>\
-</head>\
-<body class="min-h-screen bg-slate-50 font-sans antialiased">\
-  <header class="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-sm">\
-    <div class="max-w-lg mx-auto flex items-center gap-3 px-4 py-3">\
-      <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center shrink-0">\
-        <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">\
-          <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>\
-        </svg>\
-      </div>\
-      <div class="flex-1 min-w-0">\
-        <h1 class="text-base font-semibold text-slate-800 leading-tight">Leave Tracker</h1>\
-        <p id="greeting" class="text-xs text-slate-500 truncate">Initialising...</p>\
-      </div>\
-      <img id="avatar" src="" alt="Avatar" class="hidden w-9 h-9 rounded-full object-cover border-2 border-emerald-200 shrink-0" />\
-    </div>\
-  </header>\
-\
-  <main class="max-w-lg mx-auto px-4 py-6 space-y-6 pb-24">\
-    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">\
-      <div class="px-5 pt-5 pb-1">\
-        <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-widest">New Request</h2>\
-      </div>\
-      <form id="leaveForm" class="px-5 pb-5 pt-4 space-y-5">\
-        <div class="space-y-1.5">\
-          <label for="leaveType" class="block text-sm font-medium text-slate-700">Leave Type</label>\
-          <div class="relative">\
-            <select id="leaveType" name="leaveType" required class="w-full appearance-none rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200 transition-colors">\
-              <option value="" disabled selected>Select leave type</option>\
-              <option value="Full Day">Full Day</option>\
-              <option value="Half Day - Morning">Half Day - Morning</option>\
-              <option value="Half Day - Afternoon">Half Day - Afternoon</option>\
-            </select>\
-            <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">\
-              <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">\
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>\
-              </svg>\
-            </div>\
-          </div>\
-        </div>\
-        <div class="grid grid-cols-2 gap-4">\
-          <div class="space-y-1.5">\
-            <label for="startDate" class="block text-sm font-medium text-slate-700">Start Date</label>\
-            <input id="startDate" name="startDate" type="date" required class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200 transition-colors" />\
-            <p id="startDateError" class="field-error hidden text-xs text-red-500 mt-1"></p>\
-          </div>\
-          <div class="space-y-1.5">\
-            <label for="endDate" class="block text-sm font-medium text-slate-700">End Date</label>\
-            <input id="endDate" name="endDate" type="date" required class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200 transition-colors" />\
-            <p id="endDateError" class="field-error hidden text-xs text-red-500 mt-1"></p>\
-          </div>\
-        </div>\
-        <button id="submitBtn" type="submit" class="w-full flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-emerald-600 active:scale-[0.98] disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-emerald-300 transition-all">\
-          <svg id="submitSpinner" class="hidden animate-spin w-4 h-4 text-white" fill="none" viewBox="0 0 24 24">\
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>\
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>\
-          </svg>\
-          <span id="submitText">Submit Request</span>\
-        </button>\
-      </form>\
-    </section>\
-\
-    <section id="historySection" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">\
-      <div class="px-5 pt-5 pb-3 flex items-center justify-between">\
-        <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-widest">My History</h2>\
-        <button onclick="loadHistory()" class="text-xs text-emerald-600 font-medium hover:text-emerald-700 transition-colors">Refresh</button>\
-      </div>\
-      <div class="overflow-x-auto">\
-        <table class="w-full text-left">\
-          <thead class="bg-slate-50 border-y border-slate-100">\
-            <tr>\
-              <th class="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wide">Type</th>\
-              <th class="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wide">Start</th>\
-              <th class="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wide">End</th>\
-              <th class="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wide">Status</th>\
-            </tr>\
-          </thead>\
-          <tbody id="historyBody"></tbody>\
-        </table>\
-      </div>\
-    </section>\
-  </main>\
-\
-  <div id="toast" role="alert" class="fixed bottom-6 left-1/2 -translate-x-1/2 px-5 py-3 rounded-xl shadow-lg text-sm font-medium z-50 transition-all duration-300"></div>\
-\
-  <script>\
-    const LIFF_ID  = '2010062084-0awzw74g';\
-    const GAS_URL  = 'https://script.google.com/macros/s/AKfycbxFNrSG73DXBnL4rFNV5f8fP3_O3Q7J7itmzMSg6h0F8grgRqLc8c6Q0ybTL1IqYsVt/exec'; // paste your script.google.com URL here\
-\
-    let userProfile = \{ userId: '', displayName: '' \};\
-\
-    document.addEventListener('DOMContentLoaded', () => \{\
-      initLiff();\
-      bindForm();\
-    \});\
-\
-    async function initLiff() \{\
-      try \{\
-        await liff.init(\{ liffId: LIFF_ID \});\
-\
-        if (!liff.isLoggedIn()) \{\
-          liff.login(\{ redirectUri: location.href \});\
-          return;\
-        \}\
-\
-        const profile = await liff.getProfile();\
-        userProfile.userId      = profile.userId;\
-        userProfile.displayName = profile.displayName;\
-\
-        document.getElementById('greeting').textContent = 'Hello, ' + profile.displayName + ' \uc0\u55357 \u56395 ';\
-        document.getElementById('avatar').src = profile.pictureUrl || '';\
-        document.getElementById('avatar').classList.remove('hidden');\
-        loadHistory();\
-      \} catch (err) \{\
-        document.getElementById('greeting').textContent = 'ERR: ' + err.message;\
-        showToast('ERR: ' + err.message, 'error');\
-      \}\
-    \}\
-\
-    function bindForm() \{\
-      document.getElementById('leaveForm').addEventListener('submit', async (e) => \{\
-        e.preventDefault();\
-        clearErrors();\
-        const leaveType = document.getElementById('leaveType').value;\
-        const startDate = document.getElementById('startDate').value;\
-        const endDate   = document.getElementById('endDate').value;\
-        if (!validateDates(startDate, endDate)) return;\
-        setSubmitLoading(true);\
-        try \{\
-          await apiPost('saveLeave', \{\
-            userId: userProfile.userId,\
-            displayName: userProfile.displayName,\
-            leaveType, startDate, endDate\
-          \});\
-          showToast('Leave request submitted successfully!', 'success');\
-          document.getElementById('leaveForm').reset();\
-          loadHistory();\
-        \} catch (err) \{\
-          showToast('Failed to save: ' + err.message, 'error');\
-        \} finally \{\
-          setSubmitLoading(false);\
-        \}\
-      \});\
-    \}\
-\
-    async function loadHistory() \{\
-      if (!userProfile.userId) return;\
-      const tbody = document.getElementById('historyBody');\
-      const section = document.getElementById('historySection');\
-      tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-slate-400 text-sm">Loading...</td></tr>';\
-      section.classList.remove('hidden');\
-      try \{\
-        const records = await apiGet('getHistory', \{ userId: userProfile.userId \});\
-        if (!records || records.length === 0) \{\
-          tbody.innerHTML = '<tr><td colspan="4" class="text-center py-6 text-slate-400 text-sm">No leave records found.</td></tr>';\
-          return;\
-        \}\
-        tbody.innerHTML = records.slice().reverse().map(r => `\
-          <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">\
-            <td class="px-4 py-3 text-sm text-slate-700">$\{escapeHtml(r.leaveType)\}</td>\
-            <td class="px-4 py-3 text-sm text-slate-600">$\{escapeHtml(r.startDate)\}</td>\
-            <td class="px-4 py-3 text-sm text-slate-600">$\{escapeHtml(r.endDate)\}</td>\
-            <td class="px-4 py-3 text-sm"><span class="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">Approved</span></td>\
-          </tr>`).join('');\
-      \} catch (err) \{\
-        tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-red-400 text-sm">Could not load history.</td></tr>';\
-      \}\
-    \}\
-\
-    async function apiGet(action, params) \{\
-      const qs = new URLSearchParams(\{ action, ...params \}).toString();\
-      const res = await fetch(GAS_URL + '?' + qs);\
-      return res.json();\
-    \}\
-\
-    async function apiPost(action, data) \{\
-      const res = await fetch(GAS_URL, \{\
-        method: 'POST',\
-        headers: \{ 'Content-Type': 'text/plain;charset=utf-8' \},\
-        body: JSON.stringify(\{ action, ...data \})\
-      \});\
-      return res.json();\
-    \}\
-\
-    function validateDates(start, end) \{\
-      if (!start) \{ showFieldError('startDate', 'Start date is required.'); return false; \}\
-      if (!end)   \{ showFieldError('endDate', 'End date is required.'); return false; \}\
-      if (end < start) \{ showFieldError('endDate', 'End date must be on or after start date.'); return false; \}\
-      return true;\
-    \}\
-    function showFieldError(fieldId, msg) \{\
-      const el = document.getElementById(fieldId + 'Error');\
-      if (el) \{ el.textContent = msg; el.classList.remove('hidden'); \}\
-    \}\
-    function clearErrors() \{\
-      document.querySelectorAll('.field-error').forEach(el => \{ el.textContent = ''; el.classList.add('hidden'); \});\
-    \}\
-    function setSubmitLoading(loading) \{\
-      document.getElementById('submitBtn').disabled = loading;\
-      document.getElementById('submitSpinner').classList.toggle('hidden', !loading);\
-      document.getElementById('submitText').textContent = loading ? 'Submitting...' : 'Submit Request';\
-    \}\
-    function showToast(message, type) \{\
-      const toast = document.getElementById('toast');\
-      toast.textContent = message;\
-      toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 px-5 py-3 rounded-xl shadow-lg text-sm font-medium z-50 transition-all duration-300 ' + (type === 'error' ? 'bg-red-500 text-white' : 'bg-emerald-500 text-white');\
-      clearTimeout(toast._timer);\
-      toast._timer = setTimeout(() => toast.classList.add('opacity-0'), 3500);\
-    \}\
-    function escapeHtml(str) \{\
-      if (str == null) return '';\
-      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');\
-    \}\
-  </script>\
-</body>\
-</html>}
+  <main class="max-w-lg mx-auto px-4 py-6 space-y-6 pb-24">
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+      <div class="px-5 pt-5 pb-1">
+        <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-widest">New Request</h2>
+      </div>
+      <form id="leaveForm" class="px-5 pb-5 pt-4 space-y-5">
+        <div class="space-y-1.5">
+          <label for="leaveType" class="block text-sm font-medium text-slate-700">Leave Type</label>
+          <div class="relative">
+            <select id="leaveType" name="leaveType" required class="w-full appearance-none rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200 transition-colors">
+              <option value="" disabled selected>Select leave type</option>
+              <option value="Full Day">Full Day</option>
+              <option value="Half Day - Morning">Half Day - Morning</option>
+              <option value="Half Day - Afternoon">Half Day - Afternoon</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+              <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-1.5">
+            <label for="startDate" class="block text-sm font-medium text-slate-700">Start Date</label>
+            <input id="startDate" name="startDate" type="date" required class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200 transition-colors" />
+            <p id="startDateError" class="field-error hidden text-xs text-red-500 mt-1"></p>
+          </div>
+          <div class="space-y-1.5">
+            <label for="endDate" class="block text-sm font-medium text-slate-700">End Date</label>
+            <input id="endDate" name="endDate" type="date" required class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200 transition-colors" />
+            <p id="endDateError" class="field-error hidden text-xs text-red-500 mt-1"></p>
+          </div>
+        </div>
+        <button id="submitBtn" type="submit" class="w-full flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-emerald-600 active:scale-[0.98] disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-emerald-300 transition-all">
+          <svg id="submitSpinner" class="hidden animate-spin w-4 h-4 text-white" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+          </svg>
+          <span id="submitText">Submit Request</span>
+        </button>
+      </form>
+    </section>
+
+    <section id="historySection" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+      <div class="px-5 pt-5 pb-3 flex items-center justify-between">
+        <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-widest">My History</h2>
+        <button onclick="loadHistory()" class="text-xs text-emerald-600 font-medium hover:text-emerald-700 transition-colors">Refresh</button>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left">
+          <thead class="bg-slate-50 border-y border-slate-100">
+            <tr>
+              <th class="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wide">Type</th>
+              <th class="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wide">Start</th>
+              <th class="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wide">End</th>
+              <th class="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wide">Status</th>
+            </tr>
+          </thead>
+          <tbody id="historyBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" role="alert" class="fixed bottom-6 left-1/2 -translate-x-1/2 px-5 py-3 rounded-xl shadow-lg text-sm font-medium z-50 transition-all duration-300"></div>
+
+  <script>
+    const LIFF_ID = '2010062084-Ev91iLo2';
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxFNrSG73DXBnL4rFNV5f8fP3_O3Q7J7itmzMSg6h0F8grgRqLc8c6Q0ybTL1IqYsVt/exec';
+
+    let userProfile = { userId: '', displayName: '' };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initLiff();
+      bindForm();
+    });
+
+    async function initLiff() {
+      try {
+        await liff.init({ liffId: LIFF_ID });
+
+        if (!liff.isLoggedIn()) {
+          liff.login({ redirectUri: location.href });
+          return;
+        }
+
+        const profile = await liff.getProfile();
+        userProfile.userId      = profile.userId;
+        userProfile.displayName = profile.displayName;
+
+        document.getElementById('greeting').textContent = 'Hello, ' + profile.displayName + ' 👋';
+        document.getElementById('avatar').src = profile.pictureUrl || '';
+        document.getElementById('avatar').classList.remove('hidden');
+        loadHistory();
+      } catch (err) {
+        document.getElementById('greeting').textContent = 'ERR: ' + err.message;
+        showToast('ERR: ' + err.message, 'error');
+      }
+    }
+
+    function bindForm() {
+      document.getElementById('leaveForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearErrors();
+        const leaveType = document.getElementById('leaveType').value;
+        const startDate = document.getElementById('startDate').value;
+        const endDate   = document.getElementById('endDate').value;
+        if (!validateDates(startDate, endDate)) return;
+        setSubmitLoading(true);
+        try {
+          await apiPost('saveLeave', {
+            userId: userProfile.userId,
+            displayName: userProfile.displayName,
+            leaveType, startDate, endDate
+          });
+          showToast('Leave request submitted successfully!', 'success');
+          document.getElementById('leaveForm').reset();
+          loadHistory();
+        } catch (err) {
+          showToast('Failed to save: ' + err.message, 'error');
+        } finally {
+          setSubmitLoading(false);
+        }
+      });
+    }
+
+    async function loadHistory() {
+      if (!userProfile.userId) return;
+      const tbody = document.getElementById('historyBody');
+      const section = document.getElementById('historySection');
+      tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-slate-400 text-sm">Loading...</td></tr>';
+      section.classList.remove('hidden');
+      try {
+        const records = await apiGet('getHistory', { userId: userProfile.userId });
+        if (!records || records.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="4" class="text-center py-6 text-slate-400 text-sm">No leave records found.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = records.slice().reverse().map(r => `
+          <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+            <td class="px-4 py-3 text-sm text-slate-700">${escapeHtml(r.leaveType)}</td>
+            <td class="px-4 py-3 text-sm text-slate-600">${escapeHtml(r.startDate)}</td>
+            <td class="px-4 py-3 text-sm text-slate-600">${escapeHtml(r.endDate)}</td>
+            <td class="px-4 py-3 text-sm"><span class="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">Approved</span></td>
+          </tr>`).join('');
+      } catch (err) {
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-red-400 text-sm">Could not load history.</td></tr>';
+      }
+    }
+
+    async function apiGet(action, params) {
+      const qs = new URLSearchParams({ action, ...params }).toString();
+      const res = await fetch(GAS_URL + '?' + qs);
+      return res.json();
+    }
+
+    async function apiPost(action, data) {
+      const res = await fetch(GAS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action, ...data })
+      });
+      return res.json();
+    }
+
+    function validateDates(start, end) {
+      if (!start) { showFieldError('startDate', 'Start date is required.'); return false; }
+      if (!end)   { showFieldError('endDate', 'End date is required.'); return false; }
+      if (end < start) { showFieldError('endDate', 'End date must be on or after start date.'); return false; }
+      return true;
+    }
+    function showFieldError(fieldId, msg) {
+      const el = document.getElementById(fieldId + 'Error');
+      if (el) { el.textContent = msg; el.classList.remove('hidden'); }
+    }
+    function clearErrors() {
+      document.querySelectorAll('.field-error').forEach(el => { el.textContent = ''; el.classList.add('hidden'); });
+    }
+    function setSubmitLoading(loading) {
+      document.getElementById('submitBtn').disabled = loading;
+      document.getElementById('submitSpinner').classList.toggle('hidden', !loading);
+      document.getElementById('submitText').textContent = loading ? 'Submitting...' : 'Submit Request';
+    }
+    function showToast(message, type) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 px-5 py-3 rounded-xl shadow-lg text-sm font-medium z-50 transition-all duration-300 ' + (type === 'error' ? 'bg-red-500 text-white' : 'bg-emerald-500 text-white');
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => toast.classList.add('opacity-0'), 3500);
+    }
+    function escapeHtml(str) {
+      if (str == null) return '';
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+  </script>
+</body>
+</html>
